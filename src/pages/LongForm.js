@@ -1,45 +1,13 @@
-import React, { useReducer, useState } from "react";
+import React, { useReducer } from "react";
+import { actionTypes } from "../state/actionTypes";
+import { formInitialState, formReducer } from "../state/formReducer";
 
 const LongForm = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [gender, setGender] = useState("");
-  const [education, setEducation] = useState("");
-  const [feedback, setFeedback] = useState("");
-
-  const initialState = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    gender: "",
-    education: "",
-    quantity: 0,
-    feedback: "",
-    term: false,
-  };
-
-  const reducer = (state, action) => {
-    if (action.type === "INPUT") {
-      return {
-        ...state,
-        [action.payload.name]: action.payload.value,
-      };
-    } else if (action.type === "TOGGLE") {
-      return {
-        ...state,
-        term: !state.term,
-      };
-    }
-  };
-
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(formReducer, formInitialState);
 
   const submitForm = (event) => {
     event.preventDefault();
     console.log(state);
-    // console.log(userDate);
-    // console.log(state);
   };
   return (
     <div className="h-screen w-screen flex justify-center items-center overflow-auto">
@@ -57,7 +25,7 @@ const LongForm = () => {
             id="firstName"
             onBlur={(e) =>
               dispatch({
-                type: "INPUT",
+                type: actionTypes.INPUT,
                 payload: { name: e.target.name, value: e.target.value },
               })
             }
@@ -73,7 +41,7 @@ const LongForm = () => {
             id="lastName"
             onBlur={(e) =>
               dispatch({
-                type: "INPUT",
+                type: actionTypes.INPUT,
                 payload: { name: e.target.name, value: e.target.value },
               })
             }
@@ -89,7 +57,7 @@ const LongForm = () => {
             id="email"
             onBlur={(e) =>
               dispatch({
-                type: "INPUT",
+                type: actionTypes.INPUT,
                 payload: { name: e.target.name, value: e.target.value },
               })
             }
@@ -106,7 +74,7 @@ const LongForm = () => {
                 value="male"
                 onClick={(e) =>
                   dispatch({
-                    type: "INPUT",
+                    type: actionTypes.INPUT,
                     payload: { name: e.target.name, value: e.target.value },
                   })
                 }
@@ -123,7 +91,7 @@ const LongForm = () => {
                 value="female"
                 onClick={(e) =>
                   dispatch({
-                    type: "INPUT",
+                    type: actionTypes.INPUT,
                     payload: { name: e.target.name, value: e.target.value },
                   })
                 }
@@ -140,7 +108,7 @@ const LongForm = () => {
                 value="other"
                 onClick={(e) =>
                   dispatch({
-                    type: "INPUT",
+                    type: actionTypes.INPUT,
                     payload: { name: e.target.name, value: e.target.value },
                   })
                 }
@@ -160,7 +128,7 @@ const LongForm = () => {
             id="education"
             onChange={(e) =>
               dispatch({
-                type: "INPUT",
+                type: actionTypes.INPUT,
                 payload: { name: e.target.name, value: e.target.value },
               })
             }
@@ -174,13 +142,27 @@ const LongForm = () => {
         <div className="flex flex-col w-full max-w-xs">
           <label className="mb-3">Number of PCs</label>
           <div className="flex justify-between items-center gap-2 ">
-            <button className="bg-indigo-500 text-lg text-white rounded h-10 w-10 ">
+            <button
+              className="bg-indigo-500 text-lg text-white rounded h-10 w-10 "
+              onClick={(e) =>
+                dispatch({
+                  type: actionTypes.DECREMENT,
+                })
+              }
+            >
               -
             </button>
             <div className="border flex-1 flex justify-center items-center h-10 rounded-md border-gray-300">
-              <span className="text-lg">0</span>
+              <span className="text-lg">{state.quantity}</span>
             </div>
-            <button className="bg-indigo-500 text-lg text-white rounded h-10 w-10">
+            <button
+              className="bg-indigo-500 text-lg text-white rounded h-10 w-10"
+              onClick={(e) =>
+                dispatch({
+                  type: actionTypes.INCREAMENT,
+                })
+              }
+            >
               +
             </button>
           </div>
@@ -196,7 +178,7 @@ const LongForm = () => {
             rows="4"
             onBlur={(e) =>
               dispatch({
-                type: "INPUT",
+                type: actionTypes.INPUT,
                 payload: { name: e.target.name, value: e.target.value },
               })
             }
@@ -210,7 +192,7 @@ const LongForm = () => {
               type="checkbox"
               name="term"
               id="terms"
-              onClick={() => dispatch({ type: "TOGGLE" })}
+              onClick={() => dispatch({ type: actionTypes.TOGGLE })}
             />
             <label htmlFor="terms">I agree to terms and conditions</label>
           </div>
