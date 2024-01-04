@@ -3,6 +3,7 @@ import { actionTypes } from "../state/actionTypes";
 import { formInitialState, formReducer } from "../state/formReducer";
 
 const LongForm = () => {
+  // Reducer hook from React useReducer added formReducer and formInitialState
   const [state, dispatch] = useReducer(formReducer, formInitialState);
 
   const submitForm = (event) => {
